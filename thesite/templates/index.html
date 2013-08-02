@@ -1,0 +1,31 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Foursquare Categories</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1>Foursquare Categories</h1>
+      </div>
+
+      {% if categories %}
+        <ul class="list-unstyled">
+        {% for category in categories %}
+          {% include "category-list.html" %}
+        {% endfor %}
+        </ul>
+      {% else %}
+        <p>No categories.</p>
+      {% endif %}
+
+    </div>
+
+
+    <script src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  </body>
+</html>

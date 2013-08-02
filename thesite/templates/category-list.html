@@ -1,0 +1,13 @@
+<li>
+  <!-- <img src="{{ category.icon.prefix }}bg_32{{ category.icon.suffix }}"> -->
+  {{ category.name }}
+  {% if category.categories %}
+    <ul>
+    {% for sub_category in category.categories %}
+      {% with category=sub_category template_name="category-list.html" %}
+           {% include template_name %}
+      {% endwith %}
+    {% endfor %}
+    </ul>
+  {% endif %}
+</li>
