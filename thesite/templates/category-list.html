@@ -1,6 +1,6 @@
 <li>
   <!-- <img src="{{ category.icon.prefix }}bg_32{{ category.icon.suffix }}"> -->
-  {{ category.name }}
+  <a href="https://foursquare.com/explore?q={{ category.name|urlencode }}">{{ category.name }}</a>
   {% if category.categories %}
     <ul>
     {% for sub_category in category.categories %}
