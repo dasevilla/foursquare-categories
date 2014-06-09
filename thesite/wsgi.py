@@ -15,7 +15,7 @@ framework.
 """
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "rdioholdsite.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "thesite.settings")
 
 from django.core.wsgi import get_wsgi_application
 from dj_static import Cling
