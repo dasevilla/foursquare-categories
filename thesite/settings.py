@@ -3,7 +3,7 @@ import os
 
 import dj_database_url
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -93,9 +93,9 @@ ROOT_URLCONF = 'thesite.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'thesite.wsgi.application'
 
-TEMPLATE_DIRS = (
+TEMPLATE_DIRS = [
     '%s/templates' % BASE_DIR
-)
+]
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -138,11 +138,27 @@ LOGGING = {
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache'
-    }
-}
+def get_cache():
+    try:
+        os.environ['MEMCACHE_SERVERS'] = os.environ['MEMCACHIER_SERVERS'].replace(',', ';')
+        os.environ['MEMCACHE_USERNAME'] = os.environ['MEMCACHIER_USERNAME']
+        os.environ['MEMCACHE_PASSWORD'] = os.environ['MEMCACHIER_PASSWORD']
+        return {
+            'default': {
+                'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+                'TIMEOUT': 500,
+                'BINARY': True,
+                'OPTIONS': { 'tcp_nodelay': True }
+            }
+        }
+    except:
+        return {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+            }
+        }
+
+CACHES = get_cache()
 
 FOURSQUARE_KEY = os.environ['FOURSQUARE_KEY']
 FOURSQUARE_SECRET = os.environ['FOURSQUARE_SECRET']
